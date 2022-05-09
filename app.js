@@ -1,18 +1,13 @@
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
+const getFortune = require('./lib/fortune')
 
 require('dotenv').config()
 
 //configure view engine.
 
 const port = process.env.port || 8080
-const fortunes = [
-    "Conquer your fears or they will conquer you.",
-    "Rivers need springs.",
-    "Do not fear what you don't know.",
-    "You will have a pleasant surprise.",
-    "Whenever possible, keep it simple.",
-    ]
+
     
 const app = express()
 app.engine('handlebars', expressHandlebars.engine({
@@ -29,10 +24,9 @@ app.get('/', (req, res)=>{
     res.render('home')
 })
 app.get('/about', (req, res)=>{
-    const randomFortune = fortunes[Math.floor(Math.random()*fortunes.length)]
-
+    
     res.type('.html')
-    res.render('about', {fortune: randomFortune})
+    res.render('about', {fortune: getFortune.getFortune()})
 })
 //custom 404 Page
 app.use((req, res)=>{
